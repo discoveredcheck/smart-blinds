@@ -12,7 +12,10 @@ Several projects are available for steps 1 and 2. For the most part we will foll
 
 ## Option 1 - Alexa enabled device
 
+[this](https://developer.amazon.com/en-US/docs/alexa/alexa-voice-service/set-up-raspberry-pi.html)
+
 ## Option 2 - Alexa "skill"
+[this](https://www.hackster.io/nishit-patel/controlling-raspberry-pi-using-alexa-33715b)
 
 ## Comnparison
 
