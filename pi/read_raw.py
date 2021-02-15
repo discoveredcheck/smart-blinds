@@ -1,5 +1,6 @@
 from datetime import datetime
 import RPi.GPIO as GPIO
+import pickle
 
 RECEIVED_SIGNAL = [[], []]  #[[time of reading], [signal reading]]
 MAX_DURATION = 5
@@ -20,3 +21,7 @@ if __name__ == '__main__':
     print(len(RECEIVED_SIGNAL[0]), 'samples recorded')
     GPIO.cleanup()
 
+    print('**Processing results**')
+    for i in range(len(RECEIVED_SIGNAL[0])):
+        RECEIVED_SIGNAL[0][i] = RECEIVED_SIGNAL[0][i].seconds + RECEIVED_SIGNAL[0][i].microseconds/1000000.0
+    pickle.dump(RECEIVED_SIGNAL, open('out.pkl', 'wb'))
