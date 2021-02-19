@@ -21,7 +21,10 @@ while True:
     if channel is None:
         break
     else:
-        capture.append((time.time() - start, GPIO.input(RECEIVE_PIN)))
+        duration = time.time() - start
+        capture.append((duration, GPIO.input(RECEIVE_PIN)))
+        if duration > record_duration:
+            break
 print('Writing to file')
 print(len(capture))
 pickle.dump(capture, open('out.pkl', 'wb'))
