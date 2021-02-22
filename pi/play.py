@@ -1,7 +1,18 @@
+from enum import Enum
+from datetime import datetime
 import time
 import RPi.GPIO as GPIO
+import argparse
 
 TRANSMIT_PIN = 27
+PREAMBLE = '1101100111011010'
+class Channel(Enum):
+    One = ('11000', '100000001010')
+    Two = ('10100', '100000000010')
+class Button(Enum):
+    Up = ('0011', '0011')
+    Down = ('1000', '1110')
+    Stop = ('1010', '1100')
 
 class Remote:
     def __init__(self, pin, long_time_ms=0.6, short_time_ms=0.3):
@@ -26,3 +37,7 @@ class Remote:
         else:
             self._pull_line(1, self.short_time_ms)
             self._pull_line(0, self.long_time_ms)
+
+    def _send_pattern(self, pattern: str):
+        for ch in pattern:
+            self._send_bit(ch == '1')
