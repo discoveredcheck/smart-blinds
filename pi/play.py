@@ -41,3 +41,16 @@ class Remote:
     def _send_pattern(self, pattern: str):
         for ch in pattern:
             self._send_bit(ch == '1')
+
+    def button_press(self, btn: Button, channel: Channel):
+        self._set_pin(1)
+        time.sleep(0.005)
+        self._set_pin(0)
+        time.sleep(0.0025)
+        self._set_pin(1)
+        time.sleep(0.001)
+        self._send_pattern(PREAMBLE)
+        self._send_pattern(channel.value[0])
+        self._send_pattern(btn.value[0])
+        self._send_pattern(channel.value[1])
+        self._send_pattern(btn.value[1])
