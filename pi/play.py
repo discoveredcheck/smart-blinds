@@ -15,10 +15,11 @@ class Button(Enum):
     Stop = ('1010', '1100')
 
 class Remote:
-    def __init__(self, pin, long_time_ms=0.6, short_time_ms=0.3):
+    def __init__(self, pin, long_time_ms=0.6, short_time_ms=0.3, num_reps=7):
         self.long_time_ms = long_time_ms
         self.short_time_ms = short_time_ms
         self.pin = pin
+        self.num_reps = num_reps
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pin, GPIO.OUT)
     
@@ -42,7 +43,7 @@ class Remote:
         for ch in pattern:
             self._send_bit(ch == '1')
 
-    def button_press(self, btn: Button, channel: Channel):
+    def _button_press(self, btn: Button, channel: Channel):
         self._set_pin(1)
         time.sleep(0.005)
         self._set_pin(0)
@@ -54,3 +55,7 @@ class Remote:
         self._send_pattern(btn.value[0])
         self._send_pattern(channel.value[1])
         self._send_pattern(btn.value[1])
+
+    def button_press(self, btn: Button, channel: Channel):
+        for _ in range(self.num_reps):
+            self._button_press(btn, channel)
