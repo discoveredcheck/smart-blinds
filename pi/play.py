@@ -59,3 +59,14 @@ class Remote:
     def button_press(self, btn: Button, channel: Channel):
         for _ in range(self.num_reps):
             self._button_press(btn, channel)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser('Play a RF button press')
+    parser.add_argument('--button', required=True)
+    parser.add_argument('--channel', required=True)
+    parser.add_argument('--gpio-pin', default=TRANSMIT_PIN)
+    args = parser.parse_args()
+
+    remote = Remote(args.gpio_pin)
+    remote.button_press(getattr(Button, args.button), getattr(Channel, args.channel))
+    GPIO.cleanup()
