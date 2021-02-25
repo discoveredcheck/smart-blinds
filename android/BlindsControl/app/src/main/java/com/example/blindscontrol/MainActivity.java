@@ -30,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.println("HEREHEREHERER");
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
+        bar.setVisibility((View.VISIBLE));
+        findViewById(R.id.btn_down).setEnabled(false);
+        findViewById(R.id.btn_up).setEnabled(false);
+        connectionCheck();
         findViewById(R.id.btn_down).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 sendRequest("close");
@@ -60,6 +66,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+            }
+        });
+        queue.add(stringRequest);
+    }
+
+    public void connectionCheck() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = this.SERVER;
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                        findViewById(R.id.progressBar).setVisibility(View.GONE);
+                        findViewById(R.id.btn_down).setEnabled(true);
+                        findViewById(R.id.btn_up).setEnabled(true);
+                        findViewById(R.id.btn_stop).setEnabled(true);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                findViewById(R.id.btn_down).setEnabled(false);
+                findViewById(R.id.btn_up).setEnabled(false);
+                findViewById(R.id.btn_stop).setEnabled(true);
             }
         });
         queue.add(stringRequest);
