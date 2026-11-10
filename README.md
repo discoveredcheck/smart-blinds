@@ -1,6 +1,6 @@
 # smart-blinds
 
-This project controls motorised window blinds from a phone.
+This project controls motorised window blinds from a phone. It is a personal project. I am automating an older model of window blinds that I bought, and that model no longer comes with smart controls.
 
 ## How it works
 
